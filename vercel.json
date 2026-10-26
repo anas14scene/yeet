@@ -1,0 +1,17 @@
+{
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/developments", "destination": "/realestate/developments/", "permanent": false },
+    { "source": "/developments/", "destination": "/realestate/developments/", "permanent": false },
+    { "source": "/interior-design", "destination": "/realestate/interior-design/", "permanent": false },
+    { "source": "/interior-design/", "destination": "/realestate/interior-design/", "permanent": false },
+    { "source": "/hospitality", "destination": "/realestate/hospitality/", "permanent": false },
+    { "source": "/hospitality/", "destination": "/realestate/hospitality/", "permanent": false },
+    { "source": "/edibles", "destination": "/ecom/edibles/", "permanent": false },
+    { "source": "/edibles/", "destination": "/ecom/edibles/", "permanent": false },
+    { "source": "/cosmetics", "destination": "/ecom/cosmetics/", "permanent": false },
+    { "source": "/cosmetics/", "destination": "/ecom/cosmetics/", "permanent": false },
+    { "source": "/ugc", "destination": "/ecom/ugc/", "permanent": false },
+    { "source": "/ugc/", "destination": "/ecom/ugc/", "permanent": false }
+  ]
+}
