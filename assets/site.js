@@ -6,6 +6,17 @@
   const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   const CONTACT = { whatsapp: '201015945954', email: 'anas@scenehouse.co' };
+  const LANG = (document.documentElement.lang || 'en').slice(0, 2);
+  const I18N = {
+    en: { step: (n, t) => `Step ${n} of ${t}`, hi: "Hi Scene House! I'd like to start a project.", sector: 'Sector', scope: 'Scope', timeline: 'Timeline', name: 'Name', company: 'Company', contact: 'Contact', subject: 'New project enquiry' },
+    tr: { step: (n, t) => `Adım ${n} / ${t}`, hi: 'Merhaba Scene House! Bir proje başlatmak istiyorum.', sector: 'Alan', scope: 'Kapsam', timeline: 'Zaman', name: 'Ad', company: 'Şirket', contact: 'İletişim', subject: 'Yeni proje talebi' }
+  };
+  const L = I18N[LANG] || I18N.en;
+
+  // Remember the language a visitor picks, so the Turkey redirect never overrides their choice
+  $$('[data-lang]').forEach(a => a.addEventListener('click', () => {
+    document.cookie = 'lang=' + a.dataset.lang + '; path=/; max-age=31536000; SameSite=Lax';
+  }));
   const YT = 'https://www.youtube-nocookie.com/embed/';
 
   // Folder links ("realestate/") open index.html when the site is opened straight from disk
@@ -211,7 +222,7 @@
       i = n;
       steps.forEach((s, k) => (s.hidden = k !== n));
       bar.style.width = ((n + 1) / steps.length) * 100 + '%';
-      count.textContent = `Step ${n + 1} of ${steps.length}`;
+      count.textContent = L.step(n + 1, steps.length);
       back.classList.toggle('invisible', n === 0);
       const last = n === steps.length - 1;
       next.classList.toggle('hidden', last);
@@ -234,29 +245,29 @@
       error.classList.add('hidden');
       const sector = form.dataset.estimator;
       const lines = [
-        `Hi Scene House! I'd like to start a project.`,
+        L.hi,
         ``,
-        ...(sector ? [`Sector: ${sector}`] : []),
+        ...(sector ? [`${L.sector}: ${sector}`] : []),
         `${form.dataset.typeLabel || 'Project'}: ${v('type')}`,
-        `Scope: ${v('scope')}`,
-        `Timeline: ${v('timeline')}`,
+        `${L.scope}: ${v('scope')}`,
+        `${L.timeline}: ${v('timeline')}`,
         ``,
-        `Name: ${v('name')}`,
-        `Company: ${v('company') || '—'}`,
-        `Contact: ${v('contact')}`,
+        `${L.name}: ${v('name')}`,
+        `${L.company}: ${v('company') || '—'}`,
+        `${L.contact}: ${v('contact')}`,
       ];
       if (v('details')) lines.push('', v('details'));
-      return { text: lines.join('\n'), subject: `New project enquiry — ${v('type') || 'Scene House'}` };
+      return { text: lines.join('\n'), subject: `${L.subject} — ${v('type') || 'Scene House'}` };
     };
 
     $('[data-send-wa]', form).addEventListener('click', () => {
       const m = compose(); if (!m) return;
-      window.open(`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(m.text)}`, '_blank', 'noopener');
+      window.open(`https://wa.me/${form.dataset.wa || CONTACT.whatsapp}?text=${encodeURIComponent(m.text)}`, '_blank', 'noopener');
       done.classList.remove('hidden');
     });
     $('[data-send-mail]', form).addEventListener('click', () => {
       const m = compose(); if (!m) return;
-      location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(m.text)}`;
+      location.href = `mailto:${form.dataset.email || CONTACT.email}?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(m.text)}`;
       done.classList.remove('hidden');
     });
     form.addEventListener('submit', e => e.preventDefault());

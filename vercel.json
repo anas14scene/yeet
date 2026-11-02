@@ -12,6 +12,13 @@
     { "source": "/cosmetics", "destination": "/ecom/cosmetics/", "permanent": false },
     { "source": "/cosmetics/", "destination": "/ecom/cosmetics/", "permanent": false },
     { "source": "/ugc", "destination": "/ecom/ugc/", "permanent": false },
-    { "source": "/ugc/", "destination": "/ecom/ugc/", "permanent": false }
+    { "source": "/ugc/", "destination": "/ecom/ugc/", "permanent": false },
+    {
+      "source": "/:path((?!tr/|tr$|assets/).*)",
+      "has": [{ "type": "header", "key": "x-vercel-ip-country", "value": "TR" }],
+      "missing": [{ "type": "cookie", "key": "lang" }],
+      "destination": "/tr/:path",
+      "permanent": false
+    }
   ]
 }
